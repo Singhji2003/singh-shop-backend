@@ -22,7 +22,7 @@ router.post('/sign-up', [
     // If any Error then it will return this
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.json(errors)
+        return res.status(400).json({msg:errors, success:'false'});
     }
 
     try {
@@ -102,7 +102,7 @@ router.post('/login', async (req, res) => {
     }
 
     const authToken = jwt.sign(payLoad, secret_Key)
-    res.json({ authToken })
+    res.json({ authToken, success:'true' })
 
     } catch (error) {
         res.status(400).send('Internal Sever Error')
