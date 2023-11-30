@@ -6,16 +6,22 @@ const CartDetails = new Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'user'
     },
-    productname:{
+    title:{
         type:String
     },
-    productprice:{
-        type:Number
+    price:{
+        type:String
     },
-    productdesc:{
+    original_price:{
      type:String,
     },
-    productimg:{
+    star_rating:{
+        type:Number
+    },
+    num_rating:{
+        type:Number
+    },
+    photo:{
         type:String
     }
 });

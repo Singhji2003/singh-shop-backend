@@ -7,9 +7,9 @@ const Favourites = require('../modals/Favourites')
 // Route: 1 For put the personal details
 router.post('/put', fetchUser , async(req,res)=>{
     try{
-    const {productname, productprice, productdesc, productimg}  = req.body
+    const {title, price, original_price, star_rating, num_rating, photo}  = req.body
 
-   const product = Favourites.create({productname, productprice, productdesc, productimg, user:req.user.id});
+   const product = Favourites.create({title, price, original_price, star_rating, num_rating, photo, user:req.user.id});
    res.send("Successfully Added the product")
 }
 catch{

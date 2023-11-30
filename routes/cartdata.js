@@ -7,9 +7,9 @@ const CartDetails = require('../modals/CartDetails')
 // Route: 1 For put the products in cart 
 router.post('/put', fetchUser , async(req,res)=>{
     try{
-    const {productname, productprice, productdesc, productimg}  = req.body
+    const {title, price, original_price, star_rating, num_rating, photo}  = req.body
 
-   const product = CartDetails.create({productname, productprice, productdesc, productimg, user:req.user.id});
+   const product = CartDetails.create({title, price, original_price, star_rating, num_rating, photo, user:req.user.id});
    res.send("Successfully Added the product")
 }
 catch{
