@@ -5,7 +5,7 @@ const { check, validationResult } = require('express-validator');
 var bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const secret_Key = 'ArpanSinghJi'
-
+const fetchUser = require('../middleware/fetchUser');
 // Route: 1 Sign Up Routes
 
 router.post('/sign-up', [
@@ -46,7 +46,7 @@ router.post('/sign-up', [
         var securedPassword = bcrypt.hashSync(req.body.password, salt);
 
         // Making expiration of token
-        const expirationTime = Math.floor(Date.now() / 1000) + 60 * 60;
+        const expirationTime = Math.floor(Date.now() / 1000) +5* 60 * 60;
 
         // Creating the user in MongooDb backend
         const user = await User.create({
@@ -108,6 +108,14 @@ router.post('/login', async (req, res) => {
         res.status(400).send('Internal Sever Error')
     }
 
+})
+router.get('/checkToken', fetchUser , async(req,res)=>{
+    try{
+    res.status(400).json({msg:"All okay", success:'true'})
+}
+catch{
+    res.status(400).json({msg: "Internal server error", success:'false'})
+}
 })
 
 module.exports = router;
