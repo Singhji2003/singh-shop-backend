@@ -5,7 +5,7 @@ const PersonalDetails = require('../modals/PersonalDetails')
 
 
 // Route: 1 For put the personal details
-router.post('/put', fetchUser , async(req,res)=>{
+router.post('/putDetails', fetchUser , async(req,res)=>{
     try{
     const {fullname, number, altnumber, address}  = req.body
 
@@ -26,26 +26,26 @@ router.post('/put', fetchUser , async(req,res)=>{
         newDetails.address = address;
     }
     const data = await PersonalDetails.findByIdAndUpdate(user._id , {$set:newDetails}, {new:true})
-   return res.send('successfully updated')
+   res.status(400).json({msg:"successfully updated", success:'true'})
    }
 
    const userdata = PersonalDetails.create({fullname, number, altnumber, address, user:req.user.id});
-   res.send("Successfully Added the details")
+   res.status(400).json({msg:"Successfully Added the details", success:'true'})
 
 }
 catch{
-    res.status(400).send("Internal server error")
+    res.status(400).json({msg: "Internal server error", success:'false'})
 }
 })
 
 // Route: 2 For get the personal details
-router.get('/get', fetchUser , async(req,res)=>{
+router.get('/getDetails', fetchUser , async(req,res)=>{
     try{
    const user = await PersonalDetails.findOne({user:req.user.id})
     res.send(user)
 }
 catch{
-    res.status(400).send("Internal server error")
+    res.status(400).json({msg: "Internal server error", success:'false'})
 }
 })
 
