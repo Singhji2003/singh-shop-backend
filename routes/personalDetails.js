@@ -7,7 +7,7 @@ const PersonalDetails = require('../modals/PersonalDetails')
 // Route: 1 For put the personal details
 router.post('/putDetails', fetchUser , async(req,res)=>{
     try{
-    const {fullname, number, altnumber, address}  = req.body
+    const {fullname, number, altNumber,email, address}  = req.body
 
  
    const newDetails = {};
@@ -19,8 +19,11 @@ router.post('/putDetails', fetchUser , async(req,res)=>{
     if(number){
         newDetails.number = number;
     }
-    if(altnumber){
-        newDetails.altnumber = altnumber;
+    if(altNumber){
+        newDetails.altNumber = altNumber;
+    }
+    if(email){
+        newDetails.email = email;
     }
     if(address){
         newDetails.address = address;
@@ -29,7 +32,7 @@ router.post('/putDetails', fetchUser , async(req,res)=>{
    res.status(400).json({msg:"successfully updated", success:'true'})
    }
 
-   const userdata = PersonalDetails.create({fullname, number, altnumber, address, user:req.user.id});
+   const userdata = PersonalDetails.create({fullname, number, altNumber,email, address, user:req.user.id});
    res.status(400).json({msg:"Successfully Added the details", success:'true'})
 
 }

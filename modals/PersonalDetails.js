@@ -10,11 +10,13 @@ const personalDetails = new Schema({
         type:String
     },
     number:{
-        type:Number,
-        unique:true
+        type:Number
     },
-    altnumber:{
-     type:String,
+    altNumber:{
+     type:Number
+    },
+    email:{
+     type:String
     },
     address:{
         type:String
