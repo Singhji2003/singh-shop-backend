@@ -45,7 +45,7 @@ catch{
 router.get('/getDetails', fetchUser , async(req,res)=>{
     try{
    const user = await PersonalDetails.findOne({user:req.user.id})
-    res.send(user)
+    res.send({user, success:'true'})
 }
 catch{
     res.status(400).json({msg: "Internal server error", success:'false'})
