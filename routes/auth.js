@@ -122,7 +122,7 @@ router.get('/getUser', fetchUser, async (req, res) => {
     const userId = req.user.id;
     try{
         const user = await User.findById(userId).select('-password');
-      return  res.status(200).json({user, success:'false'})
+      return  res.status(200).json({user, success:'true'})
     }catch{
         res.status(400).json({ msg: "Internal server error", success: 'false' }) 
     }
