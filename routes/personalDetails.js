@@ -29,11 +29,11 @@ router.post('/putDetails', fetchUser , async(req,res)=>{
         newDetails.address = address;
     }
     const data = await PersonalDetails.findByIdAndUpdate(user._id , {$set:newDetails}, {new:true})
-   res.status(400).json({msg:"successfully updated", success:'true'})
+   return res.status(400).json({msg:"successfully updated", success:'true'})
    }
 
    const userdata = PersonalDetails.create({fullname, number, altNumber,email, address, user:req.user.id});
-   res.status(400).json({msg:"Successfully Added the details", success:'true'})
+  return res.status(400).json({msg:"Successfully Added the details", success:'true'})
 
 }
 catch{
