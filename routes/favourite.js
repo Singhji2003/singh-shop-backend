@@ -23,7 +23,7 @@ catch{
 router.get('/getFromFavourite', fetchUser , async(req,res)=>{
     try{
    const user = await Favourites.find({user:req.user.id})
-    res.send(user)
+    res.send({user, success:'true'})
 }
 catch{
     res.status(400).json({msg: "Internal server error", success:'false'})
