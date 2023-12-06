@@ -22,7 +22,7 @@ router.post('/sign-up', [
     // If any Error then it will return this
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({msg:errors, success:'false'});
+        return res.status(400).json({ msg: errors, success: 'false' });
     }
 
     try {
@@ -33,11 +33,11 @@ router.post('/sign-up', [
 
         const useremail = await User.findOne({ email });
         if (useremail) {
-            return res.status(400).json({msg: "This Email Already Exists", success:'false'});
+            return res.status(400).json({ msg: "This Email Already Exists", success: 'false' });
         }
         const usernumber = await User.findOne({ number })
         if (usernumber) {
-            return res.status(400).json({msg: "This Number Already Exists", success:'false'});
+            return res.status(400).json({ msg: "This Number Already Exists", success: 'false' });
         }
 
         // Doing Hashing of Password
@@ -46,7 +46,7 @@ router.post('/sign-up', [
         var securedPassword = bcrypt.hashSync(req.body.password, salt);
 
         // Making expiration of token
-        const expirationTime = Math.floor(Date.now() / 1000) +5* 60 * 60;
+        const expirationTime = Math.floor(Date.now() / 1000) + 5 * 60 * 60;
 
         // Creating the user in MongooDb backend
         const user = await User.create({
@@ -65,7 +65,7 @@ router.post('/sign-up', [
         }
 
         const authToken = jwt.sign(payLoad, secret_Key)
-        res.json({ authToken, success:'true' })
+        res.json({ authToken, success: 'true' })
     } catch (error) {
         res.status(400).send('Internal Sever Error')
     }
@@ -86,36 +86,46 @@ router.post('/login', async (req, res) => {
         const { email } = req.body
 
         // Checking any exists Email 
-        const user = await User.findOne({email});
-       if(!user){
-           return res.status(200).json({msg: "Login with correct cerdentials", success:'false'})
-       }
-       const passwordCompare = await bcrypt.compare(req.body.password, user.password);
-       if(!passwordCompare){
-        return res.status(200).json({msg: "Login with correct cerdentials", success:'false'})
-       }
-       const payLoad = {
-        user: {
-            id: user._id
-        },
-        exp: expirationTime,
-    }
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(200).json({ msg: "Login with correct cerdentials", success: 'false' })
+        }
+        const passwordCompare = await bcrypt.compare(req.body.password, user.password);
+        if (!passwordCompare) {
+            return res.status(200).json({ msg: "Login with correct cerdentials", success: 'false' })
+        }
+        const payLoad = {
+            user: {
+                id: user._id
+            },
+            exp: expirationTime,
+        }
 
-    const authToken = jwt.sign(payLoad, secret_Key)
-    res.json({ authToken, success:'true' })
+        const authToken = jwt.sign(payLoad, secret_Key)
+        res.json({ authToken, success: 'true' })
 
     } catch (error) {
         res.status(400).send('Internal Sever Error')
     }
 
 })
-router.get('/checkToken', fetchUser , async(req,res)=>{
+router.get('/checkToken', fetchUser, async (req, res) => {
+    try {
+        res.status(400).json({ msg: "All okay", success: 'true' })
+    }
+    catch {
+        res.status(400).json({ msg: "Internal server error", success: 'false' })
+    }
+})
+
+router.get('/getUser', fetchUser, async (req, res) => {
+    const userId = req.user.id;
     try{
-    res.status(400).json({msg:"All okay", success:'true'})
-}
-catch{
-    res.status(400).json({msg: "Internal server error", success:'false'})
-}
+        const user = await User.findById(userId).select('-password');
+      return  res.status(200).json({user, success:'false'})
+    }catch{
+        res.status(400).json({ msg: "Internal server error", success: 'false' }) 
+    }
 })
 
 module.exports = router;
