@@ -28,7 +28,7 @@ router.post('/putDetails', fetchUser , async(req,res)=>{
     if(address){
         newDetails.address = address;
     }
-    const data = await PersonalDetails.findByIdAndUpdate(user._id , {$set:newDetails}, {new:true})
+    const data = await PersonalDetails.findByIdAndUpdate(user._id , {$set:newDetails})
    return res.status(400).json({msg:"successfully updated", success:'true'})
    }
 
