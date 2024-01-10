@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken')
 const secret_Key = 'ArpanSinghJi'
 const fetchUser = (req, res, next)=>{
+
+    // For getting the id from the auth-tokeen 
     const token = req.header('auth-token')
     if(!token){
         res.status(401).json({msg:'Invalid Autorization', success:'false'})

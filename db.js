@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const MongooUrl = 'mongodb+srv://arpansinghrajput123:Arpan12345@shop.ymozh4r.mongodb.net/';
+const MongooUrl = 'mongodb+srv://arpansinghrajput123:Arpan12345@data.2s7hmin.mongodb.net/';
 const connectToMongooDB = ()=>{
     if(mongoose.connect(MongooUrl)){
         console.log("SuccessFully Connected to MongooDB")

@@ -6,6 +6,7 @@ var bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const secret_Key = 'ArpanSinghJi'
 const fetchUser = require('../middleware/fetchUser');
+
 // Route: 1 Sign Up Routes
 
 router.post('/sign-up', [
@@ -30,7 +31,6 @@ router.post('/sign-up', [
         const { email, number } = req.body
 
         // Checking any exists Email and number
-
         const useremail = await User.findOne({ email });
         if (useremail) {
             return res.status(400).json({ msg: "This Email Already Exists", success: 'false' });
@@ -41,7 +41,6 @@ router.post('/sign-up', [
         }
 
         // Doing Hashing of Password
-
         var salt = bcrypt.genSaltSync(10);
         var securedPassword = bcrypt.hashSync(req.body.password, salt);
 
@@ -109,6 +108,8 @@ router.post('/login', async (req, res) => {
     }
 
 })
+
+// Route 3 --> Checking the token
 router.get('/checkToken', fetchUser, async (req, res) => {
     try {
         res.status(400).json({ msg: "All okay", success: 'true' })
@@ -118,13 +119,14 @@ router.get('/checkToken', fetchUser, async (req, res) => {
     }
 })
 
+// Route 4 --> Getting the user details
 router.get('/getUser', fetchUser, async (req, res) => {
     const userId = req.user.id;
-    try{
+    try {
         const user = await User.findById(userId).select('-password');
-      return  res.status(200).json({user, success:'true'})
-    }catch{
-        res.status(400).json({ msg: "Internal server error", success: 'false' }) 
+        return res.status(200).json({ user, success: 'true' })
+    } catch {
+        res.status(400).json({ msg: "Internal server error", success: 'false' })
     }
 })
 
